@@ -4,7 +4,7 @@ function Sidebar() {
     // solo devuelve la estructura visual.
     return (
         // Recuerda: Convertimos el <aside class="sidebar"> en <div class="sidebar">
-        <div class="sidebar">
+        // <div class="sidebar">
         <aside className="sidebar">
             <div className="logo-area">
                 <h2>IA MASTER</h2>
@@ -24,7 +24,7 @@ function Sidebar() {
         </div>
         </aside>
         
-        </div>
+        // </div>
     );
 }
 
