@@ -1,0 +1,37 @@
+# Configuración para Netlify
+# ==========================================
+
+[build]
+  # Comando para construir el proyecto
+  command = "npm run build"
+  # Directorio donde se genera el build
+  publish = "dist"
+
+# Variables de entorno necesarias
+# ==========================================
+# IMPORTANTE: Debes configurar estas variables en Netlify Dashboard:
+# 1. Ve a Site Settings → Environment Variables
+# 2. Añade las siguientes variables:
+#    - VITE_GROQ_API_KEY_I2
+#    - VITE_GROQ_API_KEY_A3
+#    - VITE_GROQ_API_KEY_R1
+#    - VITE_GROQ_API_KEY_J4
+#
+# Las API keys se pueden obtener de: https://console.groq.com/keys
+
+# Redirecciones para SPA (Single Page Application)
+# ==========================================
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers de seguridad
+# ==========================================
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
