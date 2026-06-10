@@ -36,8 +36,8 @@ function ChatArea() {
     try {
       // 2. CONEXIÓN AL CEREBRO DE GROQ
       // ⚠️ IMPORTANTE: Pega aquí tu API Key de Groq (suele empezar por 'gsk_')
-      // const API_KEY = import.meta.env.VITE_GROQ_API_KEY_I2; // no expiration key I2 and A3, R1 expires in September 
-      const API_KEY = import.meta.env.VITE_GROQ_API_KEY; // esta api_key está en .env.local
+      const API_KEY = import.meta.env.VITE_GROQ_API_KEY_I2; // no expiration key I2 and A3, R1 expires in September 
+      // const API_KEY = import.meta.env.VITE_GROQ_API_KEY; // esta api_key está en .env.local y no funciona
       const URL = "https://api.groq.com/openai/v1/chat/completions";
 
       const respuesta = await fetch(URL, {
