@@ -5,7 +5,7 @@
 import { useState, useRef, useEffect } from "react";
 import Mensaje from "./Mensaje";
 
-function ChatArea({ chatActual, onActualizarTitulo }) {
+function ChatArea({ chatActual, onActualizarTitulo, temaOscuro, onAlternarTema }) {
   // ==========================================
   //  ZONA DE MEMORIA (ESTADOS)
   // ==========================================
@@ -157,6 +157,15 @@ Asistente: "¡Hala, 5 años! Disfruta ahora que jugar con cajas de cartón es so
   // ==========================================
   return (
     <main className="chat-area">
+      {/* Botón flotante para cambiar tema */}
+      <button 
+        className="btn-tema" 
+        onClick={onAlternarTema}
+        title={temaOscuro ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
+        aria-label={temaOscuro ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
+      >
+        {temaOscuro ? "☀️" : "🌙"}
+      </button>
       <section
         className="mensajes-container"
         id="caja-mensajes"

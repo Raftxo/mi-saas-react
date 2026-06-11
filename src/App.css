@@ -124,6 +124,26 @@ body {
   font-size: 0.9rem;
 }
 
+.perfil .copyright-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.perfil .copyright-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+body.tema-claro .perfil .copyright-link {
+  color: rgba(74, 63, 85, 0.7);
+}
+
+body.tema-claro .perfil .copyright-link:hover {
+  color: #4a3f55;
+}
+
 /* 4. ÁREA DE CHAT (Zona Central) - Glassmorphism */
 .chat-area{
   flex-grow: 1; /* Ocupa TODO el espacio restante de la pantalla*/
@@ -521,4 +541,256 @@ body {
   .input-area{
     padding: 15px 25px;
   }
+}
+
+/* ==========================================
+   BOTÓN FLOTANTE DE TEMA
+   ========================================== */
+.btn-tema {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(100, 71, 97, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+  font-size: 1.3rem;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-tema:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: rgba(100, 71, 97, 0.9);
+}
+
+/* ==========================================
+   TEMA CLARO - COLORES PASTEL
+   ========================================== */
+body.tema-claro {
+  background: linear-gradient(135deg, #e8d5f5 0%, #f5e6ff 50%, #d5e8f5 100%);
+}
+
+body.tema-claro .app-container {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+body.tema-claro .sidebar {
+  background: rgba(232, 213, 245, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(180, 150, 200, 0.3);
+  box-shadow: 4px 0 30px rgba(100, 71, 97, 0.1);
+  color: #4a3f55;
+}
+
+body.tema-claro .menu-lateral button {
+  background: rgba(195, 170, 220, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(180, 150, 200, 0.4);
+  color: #4a3f55;
+}
+
+body.tema-claro .menu-lateral button:hover {
+  background: rgba(195, 170, 220, 0.7);
+  border-color: rgba(180, 150, 200, 0.6);
+  box-shadow: 0 5px 15px rgba(100, 71, 97, 0.15);
+}
+
+body.tema-claro .historial li {
+  color: rgba(74, 63, 85, 0.8);
+}
+
+body.tema-claro .historial li:hover {
+  background: rgba(195, 170, 220, 0.3);
+  color: #4a3f55;
+}
+
+body.tema-claro .historial li.activo {
+  background: rgba(195, 170, 220, 0.4);
+  color: #4a3f55;
+  border-left: 3px solid #9b7fbf;
+}
+
+body.tema-claro .perfil {
+  border-top: 1px solid rgba(180, 150, 200, 0.3);
+  color: rgba(74, 63, 85, 0.7);
+}
+
+body.tema-claro .chat-area {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.tema-claro .chat-area::before {
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(184, 230, 204, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(200, 180, 240, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(230, 200, 240, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 60% 30%, rgba(180, 210, 240, 0.06) 0%, transparent 30%);
+}
+
+body.tema-claro .chat-header {
+  border-bottom: 1px solid rgba(180, 150, 200, 0.3);
+  color: #4a3f55;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body.tema-claro .chat-header h3 {
+  background: linear-gradient(90deg, #7b68a6, #9b7fbf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.tema-claro .controles-filtros {
+  background: rgba(245, 238, 252, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(180, 150, 200, 0.3);
+}
+
+body.tema-claro .controles-filtros button {
+  background: rgba(220, 205, 240, 0.6);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: #4a3f55;
+  border: 1px solid rgba(180, 150, 200, 0.4);
+}
+
+body.tema-claro .controles-filtros button:hover {
+  background: rgba(220, 205, 240, 0.8);
+  border-color: rgba(180, 150, 200, 0.6);
+}
+
+body.tema-claro .msg-usuario {
+  background: rgba(184, 230, 204, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #2d5a3d;
+  border: 1px solid rgba(150, 200, 175, 0.4);
+}
+
+body.tema-claro .msg-ia {
+  background: rgba(240, 225, 252, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #5a4a6e;
+  border: 1px solid rgba(200, 180, 230, 0.3);
+}
+
+body.tema-claro .msg-usuario pre, body.tema-claro .msg-ia pre {
+  background: rgba(230, 220, 245, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: #4a3f55;
+  border: 1px solid rgba(180, 150, 200, 0.2);
+}
+
+body.tema-claro .input-area {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(180, 150, 200, 0.3);
+}
+
+body.tema-claro .chat-form {
+  background: rgba(245, 238, 252, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(200, 180, 230, 0.3);
+  box-shadow: 0 8px 32px rgba(100, 71, 97, 0.1);
+}
+
+body.tema-claro .chat-form input {
+  color: #4a3f55;
+}
+
+body.tema-claro .chat-form input::placeholder {
+  color: rgba(74, 63, 85, 0.4);
+}
+
+body.tema-claro .chat-form button {
+  background: rgba(184, 230, 204, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #2d5a3d;
+  border: 1px solid rgba(150, 200, 175, 0.4);
+}
+
+body.tema-claro .chat-form button:hover {
+  background: rgba(184, 230, 204, 1);
+  box-shadow: 0 5px 15px rgba(150, 200, 175, 0.4);
+}
+
+body.tema-claro .buscador-container {
+  background: rgba(245, 238, 252, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(180, 150, 200, 0.3);
+}
+
+body.tema-claro .buscador-container input {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(180, 150, 200, 0.4);
+  color: #4a3f55;
+}
+
+body.tema-claro .buscador-container input:focus {
+  border-color: rgba(155, 127, 191, 0.5);
+  box-shadow: 0 0 10px rgba(155, 127, 191, 0.2);
+}
+
+body.tema-claro .buscador-container input::placeholder {
+  color: rgba(74, 63, 85, 0.4);
+}
+
+body.tema-claro .buscador-container button {
+  background: rgba(184, 230, 204, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: #2d5a3d;
+  border: 1px solid rgba(150, 200, 175, 0.4);
+}
+
+body.tema-claro .buscador-container button:hover {
+  background: rgba(184, 230, 204, 1);
+  box-shadow: 0 5px 15px rgba(150, 200, 175, 0.3);
+}
+
+/* Botón de tema en modo claro */
+body.tema-claro .btn-tema {
+  background: rgba(232, 213, 245, 0.85);
+  border: 1px solid rgba(180, 150, 200, 0.4);
+  color: #4a3f55;
+  box-shadow: 0 4px 15px rgba(100, 71, 97, 0.15);
+}
+
+body.tema-claro .btn-tema:hover {
+  background: rgba(232, 213, 245, 1);
+  box-shadow: 0 6px 20px rgba(100, 71, 97, 0.2);
+}
+
+/* Scrollbar en tema claro */
+body.tema-claro .mensajes-container::-webkit-scrollbar-thumb {
+  background: rgba(180, 150, 200, 0.4);
+}
+
+body.tema-claro .mensajes-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(180, 150, 200, 0.6);
 }

@@ -4,7 +4,7 @@ import './App.css';
 // 2. Importamos las dos grandes mitades de nuestra pantalla: Sidebar y ChatArea
 import Sidebar from './Sidebar';
 import ChatArea from './ChatArea';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 function App() {
   // Estado para el historial de chats (inicialmente vacío)
@@ -13,6 +13,22 @@ function App() {
   // Estado para el chat actual
   const [chatActual, setChatActual] = useState(null);
   
+  // Estado para el tema (oscuro por defecto)
+  const [temaOscuro, setTemaOscuro] = useState(() => {
+    const guardado = localStorage.getItem('temaOscuro');
+    return guardado !== null ? JSON.parse(guardado) : true;
+  });
+
+  // Efecto para guardar el tema en localStorage y aplicar la clase al body
+  useEffect(() => {
+    localStorage.setItem('temaOscuro', JSON.stringify(temaOscuro));
+    if (temaOscuro) {
+      document.body.classList.remove('tema-claro');
+    } else {
+      document.body.classList.add('tema-claro');
+    }
+  }, [temaOscuro]);
+
   // Función para extraer palabras significativas de un texto
   const extraerPalabraSignificativa = useCallback((texto) => {
     // Palabras vacías (stop words) en español e inglés
@@ -93,19 +109,57 @@ function App() {
     }
   }, [historial]);
   
-  // Función para actualizar el título del chat actual basado en el primer mensaje
-  const actualizarTituloChat = useCallback((primerMensaje) => {
-    if (chatActual && (chatActual.titulo.startsWith('Chat ') || chatActual.titulo === 'Chat')) {
-      // Extraer palabra significativa del primer mensaje
-      const nuevoTitulo = extraerPalabraSignificativa(primerMensaje);
-      
-      setHistorial(prev => prev.map(chat => 
-        chat.id === chatActual.id ? { ...chat, titulo: nuevoTitulo } : chat
-      ));
-      
-      setChatActual(prev => ({ ...prev, titulo: nuevoTitulo }));
+  // Función para generar título a partir de múltiples mensajes (2-3 primeros)
+  const generarTituloDesdeMensajes = useCallback((mensajes) => {
+    // Filtrar solo los mensajes del usuario (máximo 3)
+    const mensajesUsuario = mensajes
+      .filter(m => m.rol === 'usuario')
+      .slice(0, 3);
+    
+    if (mensajesUsuario.length === 0) return 'Chat';
+    
+    // Extraer palabras significativas de cada mensaje
+    const palabrasClave = mensajesUsuario
+      .map(m => extraerPalabraSignificativa(m.texto))
+      .filter(p => p && p !== 'Chat');
+    
+    if (palabrasClave.length === 0) return 'Chat';
+    
+    // Unir las palabras clave (máximo 3)
+    return palabrasClave.slice(0, 3).join(' · ');
+  }, [extraerPalabraSignificativa]);
+
+  // Función para actualizar el título del chat actual basado en los primeros mensajes
+  const actualizarTituloChat = useCallback((promptUsuario) => {
+    if (!chatActual || (!chatActual.titulo.startsWith('Chat ') && chatActual.titulo !== 'Chat')) {
+      return;
     }
-  }, [chatActual, extraerPalabraSignificativa]);
+
+    // Contamos cuántos mensajes de usuario llevamos
+    const mensajesUsuarioCount = chatActual.mensajes.filter(m => m.rol === 'usuario').length;
+    
+    // Si ya tenemos 3 o más mensajes de usuario, no actualizamos más el título
+    if (mensajesUsuarioCount >= 3) {
+      return;
+    }
+
+    // Añadimos el nuevo mensaje a la lista temporal
+    const mensajesActualizados = [...chatActual.mensajes, { rol: 'usuario', texto: promptUsuario }];
+    
+    // Generamos el título basado en los primeros 2-3 mensajes
+    const nuevoTitulo = generarTituloDesdeMensajes(mensajesActualizados);
+    
+    setHistorial(prev => prev.map(chat => 
+      chat.id === chatActual.id ? { ...chat, titulo: nuevoTitulo } : chat
+    ));
+    
+    setChatActual(prev => ({ ...prev, titulo: nuevoTitulo }));
+  }, [chatActual, generarTituloDesdeMensajes]);
+
+  // Función para alternar entre tema claro y oscuro
+  const alternarTema = useCallback(() => {
+    setTemaOscuro(prev => !prev);
+  }, []);
 
   return (
     // Contenedor principal que usa flexbox (definido en App.css)
@@ -122,7 +176,9 @@ function App() {
         <ChatArea 
           chatActual={chatActual}
           onActualizarTitulo={actualizarTituloChat}
-        />  
+          temaOscuro={temaOscuro}
+          onAlternarTema={alternarTema}
+        />
     </div>
     
   );

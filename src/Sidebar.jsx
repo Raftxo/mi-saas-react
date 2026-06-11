@@ -36,7 +36,9 @@ function Sidebar({ historial, chatActual, onNuevoChat, onCargarChat }) {
                 </div>
             </nav>
             <div className="perfil">
-                <span>Usuario Pro</span>
+                <a href="https://github.com/Raftxo" target="_blank" rel="noopener noreferrer" className="copyright-link">
+                    © raftxo
+                </a>
             </div>
         </aside>
     );
