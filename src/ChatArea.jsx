@@ -2,20 +2,43 @@
 // COMPONENTE: ChatArea (Zona derecha principal)
 // ==========================================
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Mensaje from './Mensaje';
 
-function ChatArea() {
+function ChatArea({ chatActual, onActualizarTitulo }) {
   
   // ==========================================
-  // � ZONA DE MEMORIA (ESTADOS)
+  //  ZONA DE MEMORIA (ESTADOS)
   // ==========================================
   
   const [textoInput, setTextoInput] = useState("");
-
+  
+  // Estado local para los mensajes del chat actual
   const [listaMensajes, setListaMensajes] = useState([
     { rol: "ia", texto: "¡Hola! Soy IA Master. Conectado a la velocidad de Groq. ¿En qué te ayudo hoy?" }
   ]);
+
+  // Referencia al contenedor de mensajes para el scroll automático
+  const mensajesContainerRef = useRef(null);
+
+  // Efecto para hacer scroll automático al final cuando hay nuevos mensajes
+  useEffect(() => {
+    if (mensajesContainerRef.current) {
+      mensajesContainerRef.current.scrollTop = mensajesContainerRef.current.scrollHeight;
+    }
+  }, [listaMensajes]);
+
+  // Efecto para cargar mensajes cuando cambia el chat actual
+  useEffect(() => {
+    if (chatActual && chatActual.mensajes && chatActual.mensajes.length > 0) {
+      setListaMensajes(chatActual.mensajes);
+    } else {
+      // Mensaje de bienvenida por defecto
+      setListaMensajes([
+        { rol: "ia", texto: "¡Hola! Soy Mister IA. Un sabelotodo. ¿En qué te ayudo hoy?" }
+      ]);
+    }
+  }, [chatActual?.id]);
 
   // ==========================================
   // ⚙️ ZONA DE LÓGICA (ACCIONES - GROQ API)
@@ -29,8 +52,14 @@ function ChatArea() {
     const promptUsuario = textoInput;
     const mensajeUsuario = { rol: "usuario", texto: promptUsuario };
     
+    // Actualizar título del chat si es el primer mensaje
+    if (listaMensajes.length <= 1) {
+      onActualizarTitulo(promptUsuario);
+    }
+    
     // Mostramos el mensaje del usuario inmediatamente y el "Pensando..."
-    setListaMensajes([...listaMensajes, mensajeUsuario, { rol: "ia", texto: "Procesando a la velocidad de la luz..." }]);
+    const nuevosMensajes = [...listaMensajes, mensajeUsuario, { rol: "ia", texto: "Procesando a la velocidad de la luz..." }];
+    setListaMensajes(nuevosMensajes);
     setTextoInput(""); 
 
     try {
@@ -51,7 +80,7 @@ function ChatArea() {
           model: "llama-3.1-8b-instant", // Modelo de código abierto ultra rápido
           messages: [
             // Le damos algo de contexto inicial
-            { role: "system", content: "Eres un asistente experto en programación web y React. Responde en español de forma clara y concisa." },
+            { role: "system", content: "Eres un experto comediante, cínico y un poco borde, A cualquier pregunta le vas a dar vuelta con gracia y humor respondiendo cosas divertidas, a veces absurdas. En general la respuesta no solucionará la pregunta del usuario. Usa emoticonos y emojis en tus respuestas." },
             // Le enviamos la pregunta del usuario
             { role: "user", content: promptUsuario }
           ],
@@ -89,12 +118,11 @@ function ChatArea() {
   };
 
   // ==========================================
-  // � ZONA VISUAL (LO QUE VE EL USUARIO)
+  //  ZONA VISUAL (LO QUE VE EL USUARIO)
   // ==========================================
   return (
     <main className="chat-area">
-      
-      <section className="mensajes-container" id="caja-mensajes">
+      <section className="mensajes-container" id="caja-mensajes" ref={mensajesContainerRef}>
         {listaMensajes.map((msg, indice) => (
           <Mensaje 
             key={indice} 

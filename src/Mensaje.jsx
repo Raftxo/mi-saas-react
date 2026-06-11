@@ -7,7 +7,7 @@ function Mensaje(props) {
     //    para pintarlo según la clase msg-usuario o msg-ia
     const claseCSS = props.rol === "usuario" ? "msg-usuario" : "msg-ia";
     //    Hacemos lo mismo para el título que aparecerá en negrita.
-    const nombreCaja = props.rol === "usuario" ? "USER" : "IA MASTER";
+    const nombreCaja = props.rol === "usuario" ? "TÚ" : "MISTER IA";
     // 3. La zona de RENDERIZADO (el return)
     //    Todo lo que vaya dentro del return es lo que React va a pintar
     return (

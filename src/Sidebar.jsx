@@ -1,30 +1,42 @@
 // COMPONENTE: Sidebar (Menú lateral)
-function Sidebar() {
-    // Este componente no tiene lógica compleja,
-    // solo devuelve la estructura visual.
+function Sidebar({ historial, chatActual, onNuevoChat, onCargarChat }) {
+    // Manejar click en "Nuevo Chat"
+    const manejarNuevoChat = () => {
+        // Crear nuevo chat (sin título inicial, se generará automático)
+        onNuevoChat();
+    };
+
+    // Manejar click en un chat del historial
+    const manejarCargarChat = (chatId) => {
+        onCargarChat(chatId);
+    };
+
     return (
-        // Recuerda: Convertimos el <aside class="sidebar"> en <div class="sidebar">
-        // <div class="sidebar">
         <aside className="sidebar">
             <div className="logo-area">
-                <h2>IA MASTER</h2>
-        </div>
-        <nav className="menu-lateral">
-            <button>+ Nuevo Chat</button>
-            <div className="historial">
-                <p>Historial reciente</p>
-                <ul>
-                    <li>¿Cómo hacer dieta?</li>
-                    <li>Receta de pizza</li>
-                </ul>
+                <h2>MISTER IA</h2>
             </div>
-        </nav>
-        <div className="perfil">
-            <span>Usuario Pro</span>
-        </div>
+            <nav className="menu-lateral">
+                <button onClick={manejarNuevoChat}>+ Nuevo Chat</button>
+                <div className="historial">
+                    <p>Historial reciente</p>
+                    <ul>
+                        {historial.map((chat) => (
+                            <li 
+                                key={chat.id} 
+                                className={chatActual?.id === chat.id ? 'activo' : ''}
+                                onClick={() => manejarCargarChat(chat.id)}
+                            >
+                                {chat.titulo}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </nav>
+            <div className="perfil">
+                <span>Usuario Pro</span>
+            </div>
         </aside>
-        
-        // </div>
     );
 }
 

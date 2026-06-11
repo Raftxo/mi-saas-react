@@ -1,4 +1,4 @@
-/* CSS PROYECTO saas-ia */
+/* CSS PROYECTO saas-ia - Glassmorphism Edition */
 /* eliminar (reseteo) los márgenes por defecto (globales con asterisco) */
 *{
   margin: 0;
@@ -7,80 +7,187 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Fondo con gradiente para la app */
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
 /* 2. LAYOUT PRINCIPAL (Flexbox) */ 
 .app-container{
   display: flex; /* Ponemos el sidebar y chat en fila */
   height: 100vh; /* Ocupar el 100% de la altura de la ventana sin importar la altura del elemento padre. */
   overflow: hidden; /* Evita que la web entera haga scroll */
+  /* Glassmorphism: fondo semitransparente */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
 }
 
-/* 3. SIDEBAR (Barra lateral) */
+/* 3. SIDEBAR (Barra lateral) - Glassmorphism */
 .sidebar{
   width: 260px; /* ancho fijo para el menú */
-  background-color: #644761; /* color oscuro tipo chatgpt*/
+  min-width: 260px; /* evita que se encoja */
+  max-width: 260px; /* evita que se expanda */
+  /* Glassmorphism styles */
+  background: rgba(100, 71, 97, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.2);
   color: #fff;
   display: flex;
   flex-direction: column; /* los elementos del menú van ... */
   justify-content: space-between; /* logo arriba, perfíl abajo */
   padding: 15px;
+  flex-shrink: 0; /* evita que el flexbox reduzca este elemento */
+}
+
+.logo-area h2 {
+  /* Glassmorphism text effect */
+  background: linear-gradient(90deg, #fff, #e0e0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .menu-lateral button{
   width: 100%;
   padding: 12px;
-  background: transparent;
-  border: 1px solid #78788f;
-  color: bisque;
-  border-radius: 5px;
+  /* Glassmorphism button */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 10px;
   cursor: pointer;
   margin-bottom: 20px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.menu-lateral button:hover{
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .historial ul{
   margin-top: 10px;
-  padding-left: 20px;
+  padding-left: 0;
+  list-style: none;
 }
 
 .historial li{
   margin-bottom: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* 4. ÁREA DE CHAT (Zona Central) */
+.historial li:hover{
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.historial li.activo{
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-left: 3px solid #19c37d;
+  font-weight: 500;
+}
+
+.perfil{
+  padding: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+/* 4. ÁREA DE CHAT (Zona Central) - Glassmorphism */
 .chat-area{
   flex-grow: 1; /* Ocupa TODO el espacio restante de la pantalla*/
   display: flex;
   flex-direction: column; /* cabezera arriba, mensajes en el centro e input abajo */
-  background-color: #343541;
+  /* Glassmorphism */
+  background: rgba(52, 53, 65, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondo estático con efecto de brillos (sin animación - cero consumo CPU) */
+.chat-area::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(25, 195, 125, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(118, 75, 162, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 60% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 30%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .chat-header{
   padding: 15px;
-  border-bottom: 1px solid #4d4d4f;
+  /* Glassmorphism border */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: #ececf1;
   text-align: center;
-  }
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.chat-header h3 {
+  background: linear-gradient(90deg, #19c37d, #3dd394);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
 
 .controles-filtros{
     text-align: center;
     padding: 10px;
-    background-color: #202123;
-    border-bottom: 1px solid #4d4d4f;
+    /* Glassmorphism */
+    background: rgba(32, 33, 35, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .controles-filtros button{
-  background: #444654;
+  /* Glassmorphism button */
+  background: rgba(68, 70, 84, 0.6);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   color: white;
-  border: 1px solid #565869;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 8px 15px;
   margin: 0 5px;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
 .controles-filtros button:hover{
-  background-color: white;
-  color: black;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 .mensajes-container{
@@ -93,41 +200,77 @@
     align-items: stretch;
     /* permitir scrolling vertical */
     overflow-y: auto;
+    /* Scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
-/* burbujas */
+.mensajes-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mensajes-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.mensajes-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.mensajes-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* burbujas - Glassmorphism */
 .msg-usuario, .msg-ia{
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 15px;
   margin-bottom: 15px;
   max-width: 80%;
   width: fit-content;
   line-height: 1.5;
   transition: all 0.3s ease;
+  /* Glassmorphism */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* la burbuja del usuario se alineará a la derecha (flex-end) */
 .msg-usuario{
-  background-color: #19c37d;
+  /* Glassmorphism verde */
+  background: rgba(25, 195, 125, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: white;
   align-self: flex-end;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* y este se alineará a la izquierda con flex-start */
 .msg-ia{
-  background-color: #444654;
+  /* Glassmorphism gris */
+  background: rgba(68, 70, 84, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #d1d5db;
   align-self: flex-start;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .msg-usuario pre, .msg-ia pre{
-  background-color: #202123;
+  /* Glassmorphism code blocks */
+  background: rgba(32, 33, 35, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   color: #f7f7f8;
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   margin-top: 10px;
   overflow-x: auto;
   white-space: pre;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .msg-usuario code, .msg-ia code{
@@ -135,24 +278,34 @@
   font-size: 0.95rem;
 }
 
-/* 5. FORMULARIO DE ENTRADA (input) */
+/* 5. FORMULARIO DE ENTRADA (input) - Glassmorphism */
 .input-area{
   padding: 20px 40px;
+  /* Glassmorphism */
+  background: rgba(32, 33, 35, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .chat-form{
   max-width: 700px;
   margin: 0 auto; /* centra verticalmente el formulario*/
   display: flex; /* El input y el button en fila*/
-  background-color: #40414f;
+  /* Glassmorphism */
+  background: rgba(64, 65, 79, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .chat-form input{
   flex-grow: 1;  /* el input estira todo lo que puede */ 
   background-color: transparent;
-  color:white;
+  color: white;
   border: none;
   padding: 5px 15px;
   border-radius: 5px;
@@ -160,21 +313,30 @@
   outline: none; /* quita el borde azul al hacer click en el input */
   font-size: 1rem;
 }
+
+.chat-form input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .chat-form button{
-  background-color: #19c37d;
+  /* Glassmorphism button */
+  background: rgba(25, 195, 125, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #fff;
-  border: none;
-  padding: 5px 15px;
-  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 20px;
+  border-radius: 10px;
   cursor: pointer;
   outline: none;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .chat-form button:hover{
-  background-color: #3dd394;
-  font-weight: bold;
-  opacity: 0.9;
+  background: rgba(25, 195, 125, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(25, 195, 125, 0.4);
 }
 
 /* "ocultamos" el elemento desplazándolo a tomar por saco a -9999 pixels */
@@ -191,36 +353,58 @@
 
 .buscador-container{
   text-align: center;
-  padding:10px;
-  background-color: #202123;
-  border-bottom: 1px solid #4d4d4f;
+  padding: 10px;
+  /* Glassmorphism */
+  background: rgba(32, 33, 35, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .buscador-container input{
+  /* Glassmorphism input */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   padding: 8px 15px;
-  border-radius: 4px;
-  border: none;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
   width: 60%;
   max-width: 400px;
   outline: none;
   font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.buscador-container input:focus {
+  border-color: rgba(25, 195, 125, 0.5);
+  box-shadow: 0 0 10px rgba(25, 195, 125, 0.2);
+}
+
+.buscador-container input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .buscador-container button{
-  background-color: #19c37d;
+  /* Glassmorphism button */
+  background: rgba(25, 195, 125, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   color: white;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 8px 15px;
-  border-radius: 4px;
+  border-radius: 8px;
   margin-left: 10px;
   cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .buscador-container button:hover{
-  background-color: white;
-  color: black;
+  background: rgba(25, 195, 125, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(25, 195, 125, 0.3);
 }
 
 
@@ -231,19 +415,22 @@
     display: none;
   }
   .mensajes-container{
-    padding: 20px;
+    padding: 15px;
   }
   /* Ajustamos el formulario a las pantallas estrechas */
   .input-area{
-    padding: 15px;
+    padding: 10px;
   }
   .input-area input::placeholder {
     color: white;
   }
   .chat-form{
-    background-color: #7b7d8f;
-    /* flex-direction: row; */
-    padding: 5px;
+    background: rgba(123, 125, 143, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   .chat-form input{
     /* la letra un poco más pequeña */
@@ -251,17 +438,76 @@
   }
   .chat-form button{
     /* botón más compacto */
-    padding: 8px 12px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    border-radius: 8px;
   }
-  
 }
 
-@media (max-width:480px){
+@media (max-width: 480px){
+  .chat-header{
+    padding: 10px;
+  }
   .chat-header h3{
-    font-size: 1.1rem;
+    font-size: 1rem;
+  }
+  .controles-filtros{
+    padding: 8px;
+  }
+  .controles-filtros button{
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    margin: 3px;
+  }
+  .buscador-container{
+    padding: 8px;
+  }
+  .buscador-container input{
+    width: 70%;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+  .buscador-container button{
+    padding: 6px 10px;
+    font-size: 0.85rem;
   }
   .msg-ia, .msg-usuario{
-    max-width: 90%;
-    font-size: 0.95rem;
+    max-width: 92%;
+    font-size: 0.9rem;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .msg-usuario pre, .msg-ia pre{
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+  .mensajes-container{
+    padding: 10px;
+  }
+  .chat-form{
+    padding: 6px;
+  }
+  .chat-form input{
+    font-size: 0.85rem;
+    padding: 4px 10px;
+  }
+  .chat-form button{
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Ajustes adicionales para tablets */
+@media (min-width: 769px) and (max-width: 1024px){
+  .sidebar{
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+  }
+  .mensajes-container{
+    padding: 15px 25px;
+  }
+  .input-area{
+    padding: 15px 25px;
   }
 }
