@@ -1,4 +1,6 @@
 // COMPONENTE: Sidebar (Menú lateral)
+import logo from './assets/mister-ia-logo-transparente.png';
+
 function Sidebar({ historial, chatActual, onNuevoChat, onCargarChat }) {
     // Manejar click en "Nuevo Chat"
     const manejarNuevoChat = () => {
@@ -14,7 +16,7 @@ function Sidebar({ historial, chatActual, onNuevoChat, onCargarChat }) {
     return (
         <aside className="sidebar">
             <div className="logo-area">
-                <h2>MISTER IA</h2>
+                <img src={logo} alt="Mister IA Logo" className="logo-img" />
             </div>
             <nav className="menu-lateral">
                 <button onClick={manejarNuevoChat}>+ Nuevo Chat</button>

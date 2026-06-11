@@ -2,20 +2,23 @@
 // COMPONENTE: ChatArea (Zona derecha principal)
 // ==========================================
 
-import { useState, useRef, useEffect } from 'react';
-import Mensaje from './Mensaje';
+import { useState, useRef, useEffect } from "react";
+import Mensaje from "./Mensaje";
 
 function ChatArea({ chatActual, onActualizarTitulo }) {
-  
   // ==========================================
   //  ZONA DE MEMORIA (ESTADOS)
   // ==========================================
-  
+
   const [textoInput, setTextoInput] = useState("");
-  
+
   // Estado local para los mensajes del chat actual
   const [listaMensajes, setListaMensajes] = useState([
-    { rol: "ia", texto: "¡Hola! Soy IA Master. Conectado a la velocidad de Groq. ¿En qué te ayudo hoy?" }
+    {
+      rol: "ia",
+      texto:
+        "¡Hola! Soy IA Master. Conectado a la velocidad de Groq. ¿En qué te ayudo hoy?",
+    },
   ]);
 
   // Referencia al contenedor de mensajes para el scroll automático
@@ -24,7 +27,8 @@ function ChatArea({ chatActual, onActualizarTitulo }) {
   // Efecto para hacer scroll automático al final cuando hay nuevos mensajes
   useEffect(() => {
     if (mensajesContainerRef.current) {
-      mensajesContainerRef.current.scrollTop = mensajesContainerRef.current.scrollHeight;
+      mensajesContainerRef.current.scrollTop =
+        mensajesContainerRef.current.scrollHeight;
     }
   }, [listaMensajes]);
 
@@ -35,15 +39,18 @@ function ChatArea({ chatActual, onActualizarTitulo }) {
     } else {
       // Mensaje de bienvenida por defecto
       setListaMensajes([
-        { rol: "ia", texto: "¡Hola! Soy Mister IA. Un sabelotodo. ¿En qué te ayudo hoy?" }
+        {
+          rol: "ia",
+          texto: "¡Hola! Soy Mister IA. Un sabelotodo. ¿En qué te ayudo hoy?",
+        },
       ]);
     }
-  }, [chatActual?.id]);
+  }, [chatActual]);
 
   // ==========================================
   // ⚙️ ZONA DE LÓGICA (ACCIONES - GROQ API)
   // ==========================================
-  
+
   const manejarEnvio = async (evento) => {
     evento.preventDefault();
     if (textoInput.trim() === "") return;
@@ -51,68 +58,100 @@ function ChatArea({ chatActual, onActualizarTitulo }) {
     // 1. Guardamos el texto del usuario
     const promptUsuario = textoInput;
     const mensajeUsuario = { rol: "usuario", texto: promptUsuario };
-    
+
     // Actualizar título del chat si es el primer mensaje
     if (listaMensajes.length <= 1) {
       onActualizarTitulo(promptUsuario);
     }
-    
+
     // Mostramos el mensaje del usuario inmediatamente y el "Pensando..."
-    const nuevosMensajes = [...listaMensajes, mensajeUsuario, { rol: "ia", texto: "Procesando a la velocidad de la luz..." }];
+    const nuevosMensajes = [
+      ...listaMensajes,
+      mensajeUsuario,
+      { rol: "ia", texto: "Procesando a la velocidad de la luz..." },
+    ];
     setListaMensajes(nuevosMensajes);
-    setTextoInput(""); 
+    setTextoInput("");
 
     try {
       // 2. CONEXIÓN AL CEREBRO DE GROQ
-      // ⚠️ IMPORTANTE: Pega aquí tu API Key de Groq (suele empezar por 'gsk_')
-      const API_KEY = import.meta.env.VITE_GROQ_API_KEY_I2; // no expiration key I2 and A3, R1 expires in September 
+      const API_KEY = import.meta.env.VITE_GROQ_API_KEY_I2; // no expiration key I2 and A3, R1 expires in September
       // const API_KEY = import.meta.env.VITE_GROQ_API_KEY; // esta api_key está en .env.local y no funciona
       const URL = "https://api.groq.com/openai/v1/chat/completions";
 
       const respuesta = await fetch(URL, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
           // Groq exige que la clave vaya aquí, como un "Bearer token"
-          "Authorization": `Bearer ${API_KEY}` 
+          Authorization: `Bearer ${API_KEY}`,
         },
         body: JSON.stringify({
-          model: "llama-3.1-8b-instant", // Modelo de código abierto ultra rápido
+          model: "llama-3.1-8b-instant",
           messages: [
-            // Le damos algo de contexto inicial
-            { role: "system", content: "Eres un experto comediante, cínico y un poco borde, A cualquier pregunta le vas a dar vuelta con gracia y humor respondiendo cosas divertidas, a veces absurdas. En general la respuesta no solucionará la pregunta del usuario. Usa emoticonos y emojis en tus respuestas." },
-            // Le enviamos la pregunta del usuario
-            { role: "user", content: promptUsuario }
+            {
+              role: "system",
+              content: `
+Eres un comediante español (de España) con humor cínico, irónico y un poco borde.
+
+IMPORTANTE:
+- Responde siempre en español natural
+- NO traduzcas chistes del inglés
+- Evita expresiones que suenen artificiales
+- Usa humor que un español entienda fácilmente
+- Puedes ser absurdo, pero que suene natural
+- Usa emojis con moderación 😏
+
+Tu objetivo es hacer respuestas graciosas, no resolver el problema.
+`,
+            },
+            {
+              role: "user",
+              content: "No tengo ganas de trabajar hoy",
+            },
+            {
+              role: "assistant",
+              content:
+                "Tranquilo, es un síntoma bastante común de estar vivo 😌",
+            },
+            {
+              role: "user",
+              content: promptUsuario,
+            },
           ],
-          temperature: 0.7 // Nivel de creatividad
-        })
+          temperature: 0.5,
+        }),
       });
 
       const datos = await respuesta.json();
-      
+
       // Escudo de seguridad por si falla la clave
       if (!respuesta.ok) {
         console.error("Error de Groq:", datos);
-        throw new Error(datos.error?.message || "La API de Groq rechazó la conexión");
+        throw new Error(
+          datos.error?.message || "La API de Groq rechazó la conexión",
+        );
       }
 
       // 3. EXTRAEMOS LA RESPUESTA DE GROQ
       // La ruta para encontrar el texto en Groq/OpenAI es esta:
       const textoIA = datos.choices[0].message.content;
       const mensajeIA = { rol: "ia", texto: textoIA };
-      
+
       // 4. ACTUALIZAMOS LA PANTALLA
       setListaMensajes((listaActual) => {
         const listaSinPensando = listaActual.slice(0, -1);
         return [...listaSinPensando, mensajeIA];
       });
-
     } catch (error) {
       console.error("Error conectando con Groq:", error);
-      
+
       setListaMensajes((listaActual) => {
         const listaSinPensando = listaActual.slice(0, -1);
-        return [...listaSinPensando, { rol: "ia", texto: `❌ Error neuronal: ${error.message}` }];
+        return [
+          ...listaSinPensando,
+          { rol: "ia", texto: `❌ Error neuronal: ${error.message}` },
+        ];
       });
     }
   };
@@ -122,13 +161,13 @@ function ChatArea({ chatActual, onActualizarTitulo }) {
   // ==========================================
   return (
     <main className="chat-area">
-      <section className="mensajes-container" id="caja-mensajes" ref={mensajesContainerRef}>
+      <section
+        className="mensajes-container"
+        id="caja-mensajes"
+        ref={mensajesContainerRef}
+      >
         {listaMensajes.map((msg, indice) => (
-          <Mensaje 
-            key={indice} 
-            rol={msg.rol} 
-            texto={msg.texto} 
-          />
+          <Mensaje key={indice} rol={msg.rol} texto={msg.texto} />
         ))}
       </section>
 
@@ -145,9 +184,8 @@ function ChatArea({ chatActual, onActualizarTitulo }) {
           <button type="submit">Enviar</button>
         </form>
       </footer>
-
     </main>
-  )
+  );
 }
 
 export default ChatArea;

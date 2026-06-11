@@ -42,14 +42,25 @@ body {
   flex-shrink: 0; /* evita que el flexbox reduzca este elemento */
 }
 
-.logo-area h2 {
-  /* Glassmorphism text effect */
-  background: linear-gradient(90deg, #fff, #e0e0ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
-  letter-spacing: 1px;
+.logo-area {
+  padding: 20px 15px 15px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-img {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  display: block;
+  /* Glassmorphism effect for logo */
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
 }
 
 .menu-lateral button{
