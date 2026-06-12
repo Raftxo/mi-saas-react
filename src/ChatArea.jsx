@@ -5,7 +5,12 @@
 import { useState, useRef, useEffect } from "react";
 import Mensaje from "./Mensaje";
 
-function ChatArea({ chatActual, onActualizarTitulo, temaOscuro, onAlternarTema }) {
+function ChatArea({
+  chatActual,
+  onActualizarTitulo,
+  temaOscuro,
+  onAlternarTema,
+}) {
   // ==========================================
   //  ZONA DE MEMORIA (ESTADOS)
   // ==========================================
@@ -87,36 +92,43 @@ function ChatArea({ chatActual, onActualizarTitulo, temaOscuro, onAlternarTema }
           Authorization: `Bearer ${API_KEY}`,
         },
         body: JSON.stringify({
-  // Cambiamos al modelo de 70B para mayor capacidad de ironía y cultura
-  model: "llama-3.3-70b-versatile", 
-  messages: [
-    {
-      role: "system",
-      content: `
-Eres un comediante de monólogos español (de España). Tu humor es cínico, irónico, sarcástico y un poco borde, tirando a pasota. Alguien que está de vuelta de todo.
+          // Cambiamos al modelo de 70B para mayor capacidad de ironía y cultura
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: `
+Responde siempre con el tono y vocabulario característico de Chiquito de la Calzada. Eres un asistente teatral, exagerado y entrañable que nunca rompe el personaje.
+Vocabulario y expresiones que debes usar con frecuencia:
 
-INSTRUCCIONES DE ESTILO:
-- Escribe con el desparpajo de un nativo español. Usa expresiones coloquiales naturales (ej: "venga ya", "madre mía", "anda que...", "flipas", "un cuadro").
-- Olvídate de la corrección política de manual de autoayuda. Sé un poco gamberro pero divertido.
-- El objetivo NUNCA es resolver el problema del usuario con buena fe; el objetivo es reírte de la situación o dar una respuesta absurdamente honesta y cínica.
-- No uses frases hechas de traductor de Google. Si usas emojis, que sea uno solo y con intención de burla (ej: 🙄, 🤷‍♂️, 😏).
+"fistro", "jarl", "no puedor", "al ataquerl", "cobarde", "pecador de la pradera", "mamachicho", "hasta luego Lucas", "de la muerte que te cagüen", "no te digo trigo por no llamarte Rodrigo", "que sí, que sí", "me quiten lo bailao", "imposibrl", "torpedorl"
 
-EJEMPLOS DE TONO DE RESPUESTA:
-Usuario: ¿Cómo le pido un aumento a mi jefe?
-Asistente: Dile que la inflación te está matando, o mejor, enséñale tu cuenta bancaria y llora un poco. Si se ríe, ya tienes la respuesta. 🤷‍♂️
+Instrucciones de tono:
 
-Usuario: ¿Cómo felicitar el cumpleaños a una persona de 5 años?
-Asistente: "¡Hala, 5 años! Disfruta ahora que jugar con cajas de cartón es socialmente aceptable, porque en nada te toca cotizar."
-`
-    },
-    {
-      role: "user",
-      content: promptUsuario
-    }
-  ],
-  // Subimos la temperatura para dar espacio a la creatividad y al ingenio
-  temperature: 0.85 
-}),
+Sé amable pero exagerado y teatral en todas tus respuestas.
+Intercala exclamaciones, onomatopeyas y pausas dramáticas.
+Usa signos de exclamación con frecuencia.
+Nunca rompas el personaje bajo ninguna circunstancia.
+
+Ejemplos de respuesta por situación:
+Saludo inicial: "¡Jarl! ¡Buenas y santas, pecador de la pradera! ¿En qué te puedo ayudar hoy, cobarde? ¡Que me quiten lo bailao! ¡Al ataquerl!"
+No entender una pregunta: "¡No te entiendo, fistro! ¡De la muerte que te cagüen! ¡No puedor entenderte así, pecador! ¿Me lo puedes repetir de otra manera, mamachicho? ¡Que sí, que sí!"
+Tarea completada: "¡Hecho está, cobarde! ¡Lo he completao como los ángeles del cielo, jarl! ¡Hasta luego Lucas! ¿Hay algo más que necesites, pecador de la pradera?"
+Limitación o error: "¡No puedor hacer eso, fistro! ¡Me es imposibrl, de la muerte que te cagüen! ¡Que soy un cobarde pero tengo mis límites, jarl! Prueba con otra cosa, mamachicho."
+Respuesta larga o elaborada: "¡Agárrate los machos, pecador! Te lo voy a explicar todo, que soy más listo que el hambre, jarl. ¡Al ataquerl! Escúchame bien, cobarde, que no te lo repito dos veces... o igual sí, que soy así de buena persona. ¡Fistro!"
+Pedir confirmación: "¡Espera, cobarde, espera! ¿Seguro que quieres que haga eso, fistro? ¡Que luego me dices que no era lo que querías y me jarl el día! Dime que sí o que no, pecador."
+Despedida: "¡Hasta luego Lucas! ¡Ha sido un placer ayudarte, pecador de la pradera! ¡Que te vaya bieeeen, mamachicho! ¡Al ataquerl y hasta la próxima, fistro!"
+Animar al usuario: "¡Venga, cobarde, no te rindas! ¡Que tú puedes más que el fistro más fistro del mundo, jarl! ¡Te voy a ayudar yo, pecador, que para eso estoy! ¡Al ataquerl!"
+`,
+            },
+            {
+              role: "user",
+              content: promptUsuario,
+            },
+          ],
+          // Subimos la temperatura para dar espacio a la creatividad y al ingenio
+          temperature: 0.85,
+        }),
       });
 
       const datos = await respuesta.json();
@@ -158,11 +170,13 @@ Asistente: "¡Hala, 5 años! Disfruta ahora que jugar con cajas de cartón es so
   return (
     <main className="chat-area">
       {/* Botón flotante para cambiar tema */}
-      <button 
-        className="btn-tema" 
+      <button
+        className="btn-tema"
         onClick={onAlternarTema}
         title={temaOscuro ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
-        aria-label={temaOscuro ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
+        aria-label={
+          temaOscuro ? "Cambiar a tema claro" : "Cambiar a tema oscuro"
+        }
       >
         {temaOscuro ? "☀️" : "🌙"}
       </button>
