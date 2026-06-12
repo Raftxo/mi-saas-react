@@ -22,7 +22,7 @@ function ChatArea({
     {
       rol: "ia",
       texto:
-        "¡Hola! Soy IA Master. Conectado a la velocidad de Groq. ¿En qué te ayudo hoy?",
+        "¡Pecador de la pradera! Soy Fistro IA, ¡por la gloria de mi madre!",
     },
   ]);
 
@@ -46,7 +46,7 @@ function ChatArea({
       setListaMensajes([
         {
           rol: "ia",
-          texto: "¡Hola! Soy Mister IA. Un sabelotodo. ¿En qué te ayudo hoy?",
+          texto: "¡Pecador de la pradera! Soy Fistro IA, ¡por la gloria de mi madre!",
         },
       ]);
     }
@@ -73,7 +73,7 @@ function ChatArea({
     const nuevosMensajes = [
       ...listaMensajes,
       mensajeUsuario,
-      { rol: "ia", texto: "Procesando a la velocidad de la luz..." },
+      { rol: "ia", texto: "Procesando a la velocidad de torpedorl..." },
     ];
     setListaMensajes(nuevosMensajes);
     setTextoInput("");

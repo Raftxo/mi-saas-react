@@ -1,5 +1,5 @@
 // COMPONENTE: Sidebar (Menú lateral)
-import logo from './assets/mister-ia-logo-transparente.png';
+import logo from './assets/fistro_ia_logo.svg';
 
 function Sidebar({ historial, chatActual, onNuevoChat, onCargarChat }) {
     // Manejar click en "Nuevo Chat"
